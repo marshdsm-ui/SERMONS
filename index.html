@@ -1,235 +1,335 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hunger and Thirst</title>
-<meta name="author" content="Daniel Marsh">
-<style>
-:root{--bg:#000;--fg:#fff;--muted:#a8a8a8;--accent:#ffd54a;--panel:#111}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);overflow:hidden;
-  font-family:Georgia,"Times New Roman",serif;-webkit-text-size-adjust:100%}
-#app{display:flex;flex-direction:column;height:100%;height:100dvh}
-#viewport{position:relative;flex:1;min-height:0;overflow:hidden}
-#stage{position:absolute;left:50%;top:50%;width:1500px;height:1000px;transform-origin:center center}
-.slide{position:absolute;inset:0;padding:90px 110px;display:flex;flex-direction:column;justify-content:center;
-  opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s}
-.slide.active{opacity:1;visibility:visible;transition:opacity .45s ease}
-.slide .notes{display:none}
-h1{font-size:84px;line-height:1.1;margin:0 0 40px;font-weight:700;letter-spacing:-.01em}
-p{font-size:48px;line-height:1.4;margin:0 0 30px;color:var(--muted)}
-ul{font-size:56px;line-height:1.4;margin:0;padding-left:1.1em}
-li{margin:0 0 .5em}
-blockquote{margin:0;padding:0 0 0 40px;border-left:6px solid var(--accent);font-size:52px;line-height:1.45;font-style:italic}
-blockquote[data-len^="3"],blockquote[data-len^="4"]{font-size:44px}
-blockquote[data-len^="5"],blockquote[data-len^="6"]{font-size:40px}
-blockquote[data-len^="7"],blockquote[data-len^="8"],blockquote[data-len^="9"],blockquote[data-len^="1"]{font-size:36px}
-sup.v{font-size:.5em;font-style:normal;font-weight:700;color:var(--accent);margin-right:.2em;vertical-align:.7em;line-height:0}
-mark{background:none;color:var(--accent);text-decoration:underline;text-underline-offset:6px}
-.only-title{align-items:center;text-align:center}
-.only-title h1{font-size:110px;margin:0}
-.verse h1{color:var(--accent);font-size:72px}
-.media{padding:60px 110px}
-.media h1{margin-bottom:24px;font-size:72px}
-.media figure{margin:0;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-.media img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
-.ph{width:100%;height:100%;border:3px dashed #555;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;color:var(--muted);font:28px/1.4 ui-monospace,Menlo,Consolas,monospace;text-align:center;padding:20px}
-#progress{position:absolute;left:0;top:0;height:4px;background:var(--accent);width:0;z-index:5;transition:width .3s}
-#counter{position:absolute;left:16px;bottom:12px;font:14px system-ui,sans-serif;color:var(--muted);z-index:5}
-#bar{position:absolute;right:12px;bottom:10px;display:flex;gap:6px;z-index:5;opacity:.35;transition:opacity .2s}
-#bar:hover,#bar:focus-within{opacity:1}
-#bar button{background:#1b1b1b;color:#fff;border:1px solid #444;border-radius:6px;min-width:40px;height:36px;
-  font:15px system-ui,sans-serif;cursor:pointer;padding:0 10px}
-#bar button:hover{background:#333}
-#bar button[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
-#notesPanel{display:none;flex:0 0 auto;max-height:38vh;overflow:auto;background:var(--panel);border-top:2px solid #333;
-  padding:18px 28px 24px;font:19px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;color:#e6e6e6}
-#notesPanel.open{display:block}
-#notesPanel p{font:inherit;color:inherit;margin:0 0 .9em}
-#notesPanel ul{font:inherit;padding-left:1.3em;margin:0 0 .9em}
-#notesPanel .empty{color:#777;font-style:italic}
-#notesPanel .v{color:var(--accent)}
-#notesPanel sup.v{font-size:.7em}
-@media (max-width:700px){#notesPanel{font-size:17px;padding:14px 16px}}
-@media print{html,body{overflow:visible;height:auto}}
-</style>
+  <meta charset="utf-8">
+  <title>hunger-and-thrist-1100 (Offline)</title>
+  <link rel="stylesheet" href="_resources/css/reveal.css">
+  <link id="theme-stylesheet" rel="stylesheet" href="">
+  <style type="text/css">
+    body.hidden {
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      background: #000; /* avoid white flash */
+      overflow: hidden; /* prevent scroll during load */
+    }
+    #revelation-offline-markdown {
+      display: none;
+    }
+  </style>
+  <script>
+    window.revealRemoteServer = "https://revealremote.fiforms.org/";
+    window.presenterPluginsPublicServer = "https://revealremote.fiforms.org/presenter-plugins-socket";
+    window.mediaPath = "_resources/_media";
+    window.exportedAppVersion = "1.0.10";
+  </script>
+  
 </head>
-<body>
-<div id="app">
-  <div id="viewport">
-    <div id="progress"></div>
-    <div id="stage">
-<section class="slide verse" aria-label="Slide 1"><div class="content"><h1>Hunger and Thirst</h1>
-<p>Matthew 5:6</p>
-<blockquote data-len="88"><sup class="v">6</sup>Blessed are those who hunger and thirst for righteousness, for they shall be filled.</blockquote></div><aside class="notes"></aside></section>
-<section class="slide only-title" aria-label="Slide 2"><div class="content"><h1>A Divine Appointment</h1></div><aside class="notes"><p>My wife, Nina, and I had dropped our children off with their grandparents and set out to celebrate our 9th wedding anniversary. I had made reservations at a local restaurant, but with a little extra time on our hands, Nina wanted to stop by her favorite secondhand clothing store.</p>
-<p>I dropped her off at the entrance and searched for a place to park. It was a busy day in that area, but I managed to find a spot and pulled in—directly in front of a man sitting on the pavement. He had a ragged appearance and held a cardboard sign.</p></aside></section>
-<section class="slide media" aria-label="Slide 3"><div class="content"><figure><img src="man-holding-cardboard-plea-sign-47325c.png" alt="" loading="lazy"></figure></div><aside class="notes"><p>The moment my car stopped, he flipped up his small cardboard sign. The handwriting was not quite legible, but I was able to make out a few words about the love of God.</p>
-<p>My faith as a Christian was being challenged right there. After all, Jesus tells us:</p></aside></section>
-<section class="slide verse" aria-label="Slide 4"><div class="content"><h1>Matthew 25:40</h1>
-<blockquote data-len="112"><sup class="v">40</sup>Assuredly, I say to you, inasmuch as you did it to one of the least of these My brethren, you did it to Me.</blockquote></div><aside class="notes"></aside></section>
-<section class="slide media" aria-label="Slide 5"><div class="content"><figure><img src="man-holding-cardboard-plea-sign-47325c.png" alt="" loading="lazy"></figure></div><aside class="notes"><p>So I purposed in my heart to share the love of God with him. I searched my vehicle and my pockets, but found no cash—not even loose change. So I stepped out of the car and was completely honest: <em>"I have no cash, but what can I do for you?"</em></p>
-<p>He looked up and answered that he simply needed food and water. He gave me a specific list of items I could purchase for him across the street at the grocery store. I went over to get my wife, and right as we were walking, my phone rang. The restaurant called to explain a system glitch: my reservation had been booked before their actual opening time, so they asked if we could come fifteen minutes later. We had the exact amount of time needed to go to the grocery store. Now you understand why I call this a divine appointment.</p>
-<p>As I reviewed the man’s list, I felt an internal conflict. He had requested turkey deli meat and cheese, explaining that his teeth were virtually gone and he could no longer chew hard foods.</p>
-<p>Being transparent with you, I had recently committed myself to a vegetarian, plant-based diet. And I have many good reasons for doing this - and these are not the point of the message today. But standing before me was this man—hungry and thirsty. I'd like to pause the story here - we're going to come back to it.</p></aside></section>
-<section class="slide" aria-label="Slide 6"><div class="content"><h1>Hunger &amp; Thirst: Three Bible Stories</h1>
-<ul><li>Eve and the Serpent (Genesis 3)</li><li>Daniel and His Friends (Daniel 1)</li><li>Jesus in the Desert (Matthew 4)</li></ul></div><aside class="notes"><p>Throughout Scripture, food and drink—hunger and thirst—are closely linked to our spirituality. Consider three stories in the Bible:</p>
-<ul><li><strong>Adam and Eve in the Garden</strong> (Genesis 3)</li></ul>
-<ul><li><strong>Daniel and his Friends in Babylon</strong> (Daniel 1)</li></ul>
-<ul><li><strong>Jesus in the Desert</strong> (Matthew 4)</li></ul></aside></section>
-<section class="slide media" aria-label="Slide 7"><div class="content"><h1>Eve and the Serpent</h1>
-<figure><img src="eve-and-the-serpent-temptation-70a7b8.png" alt="" loading="lazy"></figure></div><aside class="notes"></aside></section>
-<section class="slide verse" aria-label="Slide 8"><div class="content"><h1>Genesis 3:6</h1>
-<blockquote data-len="213"><sup class="v">6</sup>So when the woman saw that the tree was good for food, that it was pleasant to the eyes, and a tree desirable to make one wise, she took of its fruit and ate. She also gave to her husband with her, and he ate.</blockquote></div><aside class="notes"><p>Right before Eve partook of the fruit, there was a pleasing effect - it was pleasant to the eyes. have you ever heard the term "eat with your eyes"? It means the visual of food influences your appetite, how much you enjoy it, and how much you eat. It's why people take pictures of their food right before they eat. Even I am guilty of this. The camera eats first? This is a very natural thing. It's because food creates strong emotions. Joy. Comfort. Nostalgia. These are all in-the-moment feelings, but there are also lasting feelings. For example, food security is something many in this world do not get to experience. I grew up here in the US, and while I did experience rough times, I always had food to eat - praise God. This is not the case for many in the world where food is scarce. So you can see how having that security gives you peace of mind. Sadly, for Eve, she was deceived into a false sense of security, which led her to doubt and disobey God.</p></aside></section>
-<section class="slide media" aria-label="Slide 9"><div class="content"><h1>Daniel and His Friends</h1>
-<figure><img src="daniel-and-friends-before-ashpenaz-2250a7.png" alt="" loading="lazy"></figure></div><aside class="notes"><p>The next example is Daniel and his friends. I find this story very powerful. Daniel had many reasons to turn his back on his faith. His country was just invaded by Babylon. His home destroyed. His loved ones lost. Taken captive, and enslaved. It also says he was under the chief of the eunuchs, so we believe he was made a eunuch. But amidst all of that, he decided to honor God's principles of health.</p></aside></section>
-<section class="slide verse" aria-label="Slide 10"><div class="content"><h1>Daniel 1:8</h1>
-<blockquote data-len="231"><sup class="v">8</sup>But Daniel purposed in his heart that he would not defile himself with the portion of the king’s delicacies, nor with the wine which he drank; therefore he requested of the chief of the eunuchs that he might not defile himself.</blockquote></div><aside class="notes"></aside></section>
-<section class="slide" aria-label="Slide 11"><div class="content"><h1>Three Principles of Flesh Foods</h1>
-<ul><li>No blood OR fat (Genesis 9:3–4, Lev. 7:22)</li><li>Clean vs. unclean (Lev. 11, Deut. 14)</li><li>No food offered to idols (Num. 25, Rev. 2:14)</li></ul></div><aside class="notes"><p>At that time, the children of Israel were permitted to eat flesh meats, provided three principles were met:</p>
-<ul><li>no blood (Genesis 9:3–4)</li></ul>
-<ul><li>distinguishing clean from unclean (Leviticus 11, Deuteronomy 14)</li></ul>
-<ul><li>and abstaining from food offered to idols (Numbers 25, Rev. 2:14)</li></ul>
-<p>So Daniel could have chosen to be proactive in asking questions - "Is this clean?" "Was this offered to an idol?" But Daniel and his friends chose to go a step further.</p></aside></section>
-<section class="slide verse" aria-label="Slide 12"><div class="content"><h1>Daniel 1:12</h1>
-<blockquote data-len="111"><sup class="v">12</sup>Please test your servants for ten days, and let them give us vegetables (pulse) to eat and water to drink.</blockquote></div><aside class="notes"><p>Some versions say vegetables, some say pulse. Pulse is an old word, but it includes legumes, nuts, and seeds. Effectively, going back to the standard of diet before sin entered the world. I don't know about you, but I am ready for a world without sin.</p>
-<p>By purposing in his heart not to defile himself and choosing a simple plant-based diet, Daniel and his companions proved ten times wiser than all the wise men of Babylon. Keep in mind, these are just teenagers.</p></aside></section>
-<section class="slide media" aria-label="Slide 13"><div class="content"><h1>Jesus in the wilderness</h1>
-<figure><img src="jesus-christ-temptation-in-desert-16509f.png" alt="" loading="lazy"></figure></div><aside class="notes"></aside></section>
-<section class="slide verse" aria-label="Slide 14"><div class="content"><h1>Matthew 4:1–2</h1>
-<blockquote data-len="167"><sup class="v">1</sup>Then Jesus was led up by the Spirit into the wilderness to be tempted by the devil <sup class="v">2</sup>And when He had fasted forty days and forty nights, afterward He was hungry.</blockquote></div><aside class="notes"></aside></section>
-<section class="slide verse" aria-label="Slide 15"><div class="content"><h1>Matthew 4:3–4</h1>
-<blockquote data-len="254"><sup class="v">3</sup>Now when the tempter came to Him, he said, "If You are the Son of God, command that these stones become bread." <sup class="v">4</sup>But He answered and said, "It is written, 'Man shall not live by bread alone, but by every word that proceeds from the mouth of God.'"</blockquote></div><aside class="notes"><p>I want you to put yourself in the shoes of Jesus.</p>
-<p>We see Jesus was in the middle of a fast. Fasting is a powerful tool. I listened recently to an interview with a medical doctor who treats diabetes and heart disease, and he specifically stated: <em>"The body was designed to fast."</em> This doctor is not a Christian, so he probably did not grasp the full weight of his words: <em>design</em> points to a <em>Designer</em>! Under proper guidance, science has shown fasting cleanses the body of toxins. And there are many examples in Scripture of fasting with prayer.</p>
-<p>Another interesting thing: Jesus is extremely weak, and going without food for so long puts a person on the brink of death. Jesus refuses the bread and then proceeds to endure further temptation. Can you imagine? You've fasted to the brink of death and you're still turning away food. Then, to every temptation that followed, Jesus responds with Scripture. Though His body was weak, His mind was fresh with the Word of God. What an incredible example Jesus has left us to follow.</p></aside></section>
-<section class="slide only-title" aria-label="Slide 16"><div class="content"><h1>A Pattern in Scripture</h1></div><aside class="notes"><p>Let's take a step back for a moment. Notice the pattern in Scripture around appetite: the very first temptation in the Garden of Eden, the first test of Daniel in Babylon, and the first temptation of Jesus in the wilderness. In each instance, Satan uses the channel of appetite when these individuals were vulnerable - separated, captured, even on the brink of death. So what does it mean for us today?</p></aside></section>
-<section class="slide verse" aria-label="Slide 17"><div class="content"><h1>The Great Controversy, p. 519</h1>
-<blockquote data-len="470">"Satan sees the Lord’s servants burdened because of the spiritual darkness that enshrouds the people. He hears their earnest prayers for divine grace and power to break the spell of indifference, carelessness, and indolence. Then with renewed zeal he plies his arts. He tempts men to the <mark>indulgence of appetite</mark> or to some other form of self-gratification, and thus benumbs their sensibilities so that they fail to hear the very things which they most need to learn."</blockquote></div><aside class="notes"><p>Satan tempts us to indulge the appetite so that our sensibilities become numb and we fail to hear God's voice. I find this very interesting because many find comfort in food or drink, and I do believe God designed food to be enjoyed, but when enjoyment comes at the cost of our health or our spirituality, can we go too far?</p>
-<p>Does God care about what we put into our bodies?</p></aside></section>
-<section class="slide verse" aria-label="Slide 18"><div class="content"><h1>1 Corinthians 3:16–17</h1>
-<blockquote data-len="210"><sup class="v">16</sup>Do you not know that you are the temple of God and that the Spirit of God dwells in you? <sup class="v">17</sup>If anyone defiles the temple of God, God will destroy him. For the temple of God is holy, which temple you are.</blockquote></div><aside class="notes"><p>There is a story in the Old Testament. You can find it in 2 Kings 21. King Manasseh of Judah was a wicked king and decided to put altars and graven images of false gods in the sanctuary. And he did many other things defiling God's temple. So what did God do? God responded through a prophet saying God would destroy Jerusalem and give the Israelites into the hands of their enemies. And that is exactly what happened. Babylon invaded and Jerusalem fell.</p>
-<p>The principle here is simple. You reap what you sow. There is cause and effect. If we bring things into our bodies (Our bodies are God's temple) that are counterproductive to health - our health will decline. Now as it pertains to health, I would never use Scripture to judge anybody. I am no judge. In my work I travel all over the world meeting with all kinds of people who eat and drink all kinds of things - and I never think less of them because of it. Why do you think that is? Because all of us (myself included) our righteousness is as filthy rags. I do not believe in salvation by works. We are not saved by our diet, we are only saved by faith through grace. However, we would be remiss not to hear what God requires of those who love Him. What I'm talking about is the difference between legalism and saving faith. In legalism one pursues holiness because he thinks it saves him - it's selfishly motivated. Saving faith on the other hand pursues holiness out of love for God. It is motivated by love!</p>
-<p>A common misconception out there is that Seventh-day Adventists are the diet police. This is far from the truth. Our primary duties are loving God and loving our fellow man. To show people how good God is - taste and see that the Lord is good!</p>
-<p>So you remember my story about the homeless man. How did I respond to the request for meat and cheese? I gave him exactly what he asked for. And a little more. Some money for the bus. And a card with a link to The Great Controversy. Spiritual food with the physical food. When I came back to him, he said I was the 6th or 7th person that he spoke to that day, but the only one that came back. He couldn't believe it. And he was so thankful he gave me a hug and kiss on the cheek. I was slightly taken aback. But I'm glad I could share God's love with him. And I am forever changed by this interaction.</p></aside></section>
-<section class="slide verse" aria-label="Slide 19"><div class="content"><h1>Romans 12:1–2</h1>
-<blockquote data-len="338"><sup class="v">1</sup>I beseech you therefore, brethren, by the mercies of God, that you present your bodies a living sacrifice, holy, acceptable to God, which is your reasonable service. <sup class="v">2</sup>And do not be conformed to this world, but be transformed by the renewing of your mind, that you may prove what is that good and acceptable and perfect will of God.</blockquote></div><aside class="notes"><p>As God's servants, presenting our bodies holy before Him is not legalistic by any means but our <em>"reasonable service."</em></p>
-<p>How we treat the body temple determines whether our minds remain sharp like Daniel and his friends - like Jesus in the desert. The main goal of health reform is to have the clarity of mind that welcomes the Holy Spirit. There is the added benefit of a long life. But this is not the motivation. See, hoping to live longer on its own is really a self-serving pursuit. Self-preservation. But there is no point in living a long life, if you've not surrendered your heart to God. If you have not experienced daily dying to self.</p></aside></section>
-<section class="slide only-title" aria-label="Slide 20"><div class="content"><h1>"In times of peace prepare for war"</h1></div><aside class="notes"><p>I thoroughly believe that our time on this Earth is very short. The Word of God cannot fail. Each day is one day closer to the great reset of our planet as we know it. One day closer to seeing Jesus coming through the clouds. Right now, we live in a time of great privilege, having all the truths of Old Testament, New Testament, and the Spirit of Prophecy. Living in a country of great wealth and at a time of great technological innovation. Let's not fall asleep in these comfortable times. A great conflict - a time of trouble - is before us, Scripture tells us of global catastrophe, famine, pestilence, wars, such that all life on earth will cease. The third angel's message of Revelation also warns us against coerced worship through the mark of the beast. Without the mark, we won't be able to buy or sell - how are you going to buy your groceries? We will be faced with a decision: Submit to God and suffer persecution, or submit to false worship and have food on your table.</p>
-<p>So how do we prepare? Do we stockpile food and water in our pantries to survive? No, we prepare our hearts. Afflict our souls. We prepare for times of hunger by being hungry now. But not hunger of food, but of the righteousness of Jesus. Blessed are those who hunger and thirst for righteousness, for they shall be filled.</p></aside></section>
-<section class="slide verse" aria-label="Slide 21"><div class="content"><h1>John 6:35</h1>
-<blockquote data-len="139"><sup class="v">35</sup>And Jesus said to them, “I am the bread of life. He who comes to Me shall never hunger, and he who believes in Me shall never thirst.”</blockquote></div><aside class="notes"><p>I want you to memorize this text here, the words of Jesus:</p></aside></section>
-<section class="slide verse" aria-label="Slide 22"><div class="content"><h1>Testimonies for the Church, vol. 9, p. 153</h1>
-<blockquote data-len="477">"Those who have received instruction regarding the evils of the use of flesh foods, tea and coffee, and rich and unhealthful food preparations, and who are determined to make a covenant with God by sacrifice, will not continue to indulge their appetite for food that they know to be unhealthful. God demands that the appetites be cleansed, and that self-denial be practiced... This is a work that will have to be done before His people can stand before Him a perfected people."</blockquote></div><aside class="notes"><p>So I want to encourage our churches toward health reform, as it is not just a means for a long life, but it prepares you for the end of time.</p></aside></section>
-<section class="slide verse" aria-label="Slide 23"><div class="content"><h1>Revelation 7:13–14</h1>
-<blockquote data-len="309"><sup class="v">13</sup>Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?" <sup class="v">14</sup>And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb."</blockquote></div><aside class="notes"><p><sup class="v">13</sup>Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?" <sup class="v">14</sup>And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb."<br><sup class="v">15</sup>Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them.<br><sup class="v">16</sup>They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat;<br><sup class="v">17</sup>for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.</p></aside></section>
-<section class="slide verse" aria-label="Slide 24"><div class="content"><h1>Revelation 7:15–17</h1>
-<blockquote data-len="416"><sup class="v">15</sup>Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them. <sup class="v">16</sup>They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat; <sup class="v">17</sup>for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.</blockquote></div><aside class="notes"><p><sup class="v">13</sup>Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?" <sup class="v">14</sup>And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb."<br><sup class="v">15</sup>Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them.<br><sup class="v">16</sup>They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat;<br><sup class="v">17</sup>for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.</p></aside></section>
-    </div>
-    <div id="counter" aria-live="polite"></div>
-    <div id="bar">
-      <button id="prev" aria-label="Previous slide" title="Previous (←)">‹</button>
-      <button id="next" aria-label="Next slide" title="Next (→)">›</button>
-      <button id="nbtn" aria-label="Toggle speaker notes" aria-pressed="false" title="Notes (N)">Notes</button>
-      <button id="fbtn" aria-label="Toggle fullscreen" title="Fullscreen (F)">⛶</button>
+<body class="hidden">
+    <div class="reveal">
+    <div class="slides">
+      <section id="markdown-container">Loading...</section>
     </div>
   </div>
-  <div id="notesPanel" role="region" aria-label="Speaker notes"></div>
-</div>
-<script>
-(function(){
-  var W=1500,H=1000,MAXS=4;
-  var stage=document.getElementById('stage'),vp=document.getElementById('viewport');
-  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var panel=document.getElementById('notesPanel'),nbtn=document.getElementById('nbtn');
-  var counter=document.getElementById('counter'),prog=document.getElementById('progress');
-  var cur=0,total=slides.length;
+  <div id="fixed-overlay-wrapper">
+  </div>
+  <div id="fixed-tint-wrapper">
+  </div>
+  <!-- Invisible Audio Player -->
+  <audio id="background-audio-player" loop></audio>
+  <!-- DO NOT EDIT THE ESCAPED MARKDOWN BELOW, IT WILL BE OVERWRITTEN. -->
 
-  // Graceful fallback for missing images (useful while hosting paths are being set up)
-  Array.prototype.forEach.call(document.images,function(img){
-    img.addEventListener('error',function(){
-      var d=document.createElement('div');d.className='ph';
-      d.textContent='Image not found: '+(img.getAttribute('src')||'');
-      if(img.parentNode)img.parentNode.replaceChild(d,img);
-    });
-  });
+  <textarea id="revelation-offline-markdown">---
+title: Hunger and Thrist
+author: Daniel Marsh
+theme: black-contrast.css
+stylesheet: style.css
+created: '2026-10-20'
+newSlideOnHeading: false
+config:
+  transition: fade
+  width: 1500
+  height: 1000
+  maxScale: 4
+  controls: false
+  progress: false
+  slideNumber: true
+  showSlideNumber: speaker
+  hashOneBasedIndex: true
+  hash: true
+confidence: {}
+version: 1.0.10
+---
+# Hunger and Thirst
 
-  function fit(){
-    var s=Math.min(vp.clientWidth/W,vp.clientHeight/H,MAXS);
-    stage.style.transform='translate(-50%,-50%) scale('+s+')';
+Matthew 5:6
+
+&gt;[6] Blessed are those who hunger and thirst for righteousness, for they shall be filled.
+
+---
+
+# A Divine Appointment
+
+:note:
+
+My wife, Nina, and I had dropped our children off with their grandparents and set out to celebrate our 9th wedding anniversary. I had made reservations at a local restaurant, but with a little extra time on our hands, Nina wanted to stop by her favorite 2nd hand clothing store
+
+I dropped her off at the entrance and searched for a place to park. It was a busy day in that area, but I managed to find a spot and pulled in—directly in front of a man sitting on the pavement. He had a ragged appearance and held a cardboard sign.
+
+---
+
+![](man-holding-cardboard-plea-sign-47325c.png)
+
+:note:
+
+The moment my car stopped, he flipped up his small cardboard sign. The handwriting was not quite legible, but I was able to make out a few words about the love of God.
+
+My faith as a Christian was being challenged right there. After all, Jesus tells us
+
+---
+
+# Matthew 25:40 
+
+ &gt;[40] Assuredly, I say to you, inasmuch as you did it to one of the least of these My brethren, you did it to Me.
+
+---
+
+![](man-holding-cardboard-plea-sign-47325c.png)
+
+:note:
+
+So I purposed in my heart to share the love of God with him. I searched my vehicle and my pockets, but found no cash—not even loose change. So I stepped out of the car and was completely honest: *"I have no cash, but what can I do for you?"*
+
+He looked up and answered that he simply needed food and water. He gave me a specific list of items I could purchase for him across the street at the grocery store. I went over to get my wife, and right as we were walking, my phone rang. The restaurant called to explain a system glitch: my reservation had been booked before their actual opening time, so they asked if we could come fifteen minutes later. We had the exact amount of time needed to go to the grocery store. Now you understand why I call this a divine appointment.
+
+As I reviewed the man’s list, I felt an internal conflict. He had requested turkey deli meat and cheese, explaining that his teeth were virtually gone and he could no longer chew hard foods.
+
+Being transparent with you, I had recently committed myself to a vegetarian, and plant based diet. And I have many good reasons for doing this - and these are not the point of the message today. But standing before me was this man—hungry and thirsty. I'd like to pause the story here - we're going to come back to it.
+
+---
+
+# Hunger &amp; Thirst: three bible stories
+
+- Eve and the Serpant (Genesis 3)
+- Daniel and his Friends  (Daniel 1)
+- Jesus in the Desert (Matthew 4)
+
+:note:
+
+Throughout Scripture, food and drink—hunger and thirst—are closely linked to our spirituality. Consider three stories in the Bible :
+
+- **Adam and Eve in the Garden** (Genesis 3)
+  
+- **Daniel and his Friends in Babylon** (Daniel 1)
+  
+- **Jesus in the Desert** (Matthew 4)
+
+---
+
+# Eve and the Serpant
+![](eve-and-the-serpent-temptation-70a7b8.png)
+
+---
+
+# Genesis 3:6
+&gt;[6] So when the woman saw that the tree was good for food, that it was pleasant to the eyes, and a tree desirable to make one wise, she took of its fruit and ate. She also gave to her husband with her, and he ate.
+
+:note:
+
+Right before Eve partook of the fruit, there was a pleasing effect - it was pleasant to the eyes. you have ever heard the term "eat with your eyes"? It means the visual of food influences your appetite, how much you enjoy it, and how much you eat. It's why people take pictures of their food right before they eat. Even I am guilty of this. The camera eats first? This is a very natural thing. It's because food creates strong emotions. Joy. Comfort. Nostalgia. These are all in-the moment feelings, but there are also lasting feelings. For example, food security is something many in this world do not get to experience. I grew up here in the US, and while I did experience rough times, I always had food to eat - praise God. This is not the case for many in the world where food is scarce. So you can see how having that security gives you peace of mind. Sadly, for Eve, she was deceived into a false sense of security, which lead her to doubt and disobey God.
+
+---
+
+# Daniel and His Friends
+![](daniel-and-friends-before-ashpenaz-2250a7.png)
+
+:note:
+
+The next example is Daniel and his Friends. I find this story very powerful. Daniel had many reasons to turn his back on his faith. His country was just invaded by Babylon. His home destroyed. His loved ones lost. Taken captive, and enslaved. It also says He was also under chief of the eunuchs, so we beleive He was made a Eunich. But amidst all of that, he decided to honor God's principles of health
+
+---
+
+# Daniel 1:8
+&gt;[8] But Daniel purposed in his heart that he would not defile himself with the portion of the king’s delicacies, nor with the wine which he drank; therefore he requested of the chief of the eunuchs that he might not defile himself.
+
+---
+
+# Three Principles of Flesh Foods
+
+- No blood OR fat (Genesis 9:3–4, Lev. 7:22)
+- Clean vs. unclean (Lev. 11, Deut. 14)
+- No food offered to idols (Num. 25, Rev. 2:14)
+
+:note:
+
+At that time, the children of Israel were permitted to eat flesh meats, provided three principles were met:
+
+- no blood (Genesis 9:3–4)
+  
+- distinguishing clean from unclean (Leviticus 11, Deuteronomy 14)
+  
+- and abstaining from food offered to idols (Numbers 25, Rev. 2:14)
+  
+
+So Daniel could have chosen to be proactive in asking questions - "Is this clean?" "Was this. But Daniel and his friends chose to go a step further.
+
+---
+
+# Daniel 1:12:
+
+&gt;[12] Please test your servants for ten days, and let them give us vegetables (pulse) to eat and water to drink.
+
+:note:
+
+Some versions say vegetables, some say pulse. Pulse is an old word, but it includes legumes, nuts, and seeds. Effectively, going back to the standard of diet before sin entered the world. I don't know about you, but I am ready for a world without sin.
+
+By purposing in his heart not to defile himself and choosing a simple plant-based diet, Daniel and his companions proved ten times wiser than all the wise men of Babylon. Keep in mind, these are just teenagers.
+
+---
+
+# Jesus in the wilderness
+
+![](jesus-christ-temptation-in-desert-16509f.png)
+
+---
+
+# Matthew 4:1–4:
+
+&gt; [1] Then Jesus was led up by the Spirit into the wilderness to be tempted by the devil [2] And when He had fasted forty days and forty nights, afterward He was hungry.
+
+---
+
+# Matthew 4:1–4:
+
+&gt;[3] Now when the tempter came to Him, he said, "If You are the Son of God, command that these stones become bread." [4] But He answered and said, "It is written, 'Man shall not live by bread alone, but by every word that proceeds from the mouth of God.'"
+
+:note:
+
+I want you to put yourself in the shoes of Jesus.
+
+We see Jesus was in the middle of a fast. Fasting is a powerful tool. I listened recently to an interview with a medical doctor who treats diabetes and heart disease, and he specifically stated: *"The body was designed to fast."* This doctor is not a Christian, so he probably did not grasp the full weight of his words: *design* points to a *Designer*! Under proper guidance, science has shown fasting cleanses the body of toxins. And there are many examples in Scripture of fasting with prayer.
+
+Another interesting thing is Jesus is extremely weak, not having food for so long puts you on the brink of death. Jesus refuses the bread and then proceeds to endure further temptation. Can you imagine? you've fasted to the brink of death and still turning away food. Then, every temptation that followed Jesus responds with Scripture. Though his body was weak, his mind was afresh with the word of God. What an incredible example Jesus has left us to follow.
+
+---
+
+# A Pattern in Scripture
+
+:note:
+
+Let's take a step back for a moment. Notice the pattern in Scripture around appetite: the very first temptation in the Garden of Eden, the first test of Daniel in Babylon, and the first temptation of Jesus in the wilderness. In each instance, Satan uses the channel of appetite when these individuals were vulnerable - seperated, captured, even on the brink of death. So what does it mean for us today?
+
+---
+
+# The Great Controversy p.519:
+
+&gt; "Satan sees the Lord’s servants burdened because of the spiritual darkness that enshrouds the people. He hears their earnest prayers for divine grace and power to break the spell of indifference, carelessness, and indolence. Then with renewed zeal he plies his arts. He tempts men to the __indulgence of appetite__ or to some other form of self-gratification, and thus benumbs their sensibilities so that they fail to hear the very things which they most need to learn."
+
+:note:
+
+Satan tempts us to indulge the appetite so that our sensibilities become numb and we fail to hear God's voice. I find this very interesting because many find comfort in food or drink, and I do believe God designed food to be enjoyed, but when enjoyment comes at the cost of our health or our spirituality, can we go too far?
+
+Does God care about what we put into our bodies?
+
+---
+
+# 1 Corinthians 3:16–17:
+
+&gt; [16] Do you not know that you are the temple of God and that the Spirit of God dwells in you? [17] If anyone defiles the temple of God, God will destroy him. For the temple of God is holy, which temple you are.
+
+:note:
+
+There is a story in the old testament. You can find it 2 Kings 21. King Manessah of Judah was a wicked king and decided to put alters and graven statues of false gods in the sanctuary. And he did many other things defiling God's temple. So what did God do? God responded through a prophet saying God would destroy Jerasulem and give the Israelites into the hands of their enemies. And that is exactly what happened. Babylon invaded and Jersalem fell.
+
+The principle here is simple. You reap what you sow. There is cause and effect. If we bring things into our bodies (Our bodies are God's temple) that are couterproductive to health - our health will decline. Now as it pertains to health, I would never use Scipture to judge anybody. I am no judge. In my work I travel all over the world meeting with all kinds of people who eat and drink all kinds of things - and I never think less of them because of it. Why do you think that is? because all of us(myself included) our righteousness is as filthy rags. I do not believe in salvation by works. We are not saved by our diet, we are only saved by faith through grace. However, we would be remiss not to hear what God requires of those who love Him. What I'm talking about is the difference between legalism and saving faith. In legalism one pursues holiness because he thinks it saves him - it's selfishly motivated. Saving faith on the other hand pursues holiness out of love for God. It is motivated by love!
+
+A common misconception out there is that Seventh Day Adventists are the diet police. This is far from the truth. Our primary duties are loving God and loving our fellow man. To show people how good God is - taste and see that the Lord is good!
+
+So you remember my story. about the homeless man. How did I respond to the request for meat and cheese? I gave him exactly what he asked for. And a little more. Some money for the bus. And a card with link to the great controversy. Spiritual food with the physical food. When I came back to him, he said I was the 6th or 7th person that he spoke to that day, but the only one that came back. He couldn't believe it. And he was so thankful he gave me a hug and kiss on the cheek. I was slightly taken aback. But I'm glad I could share God's love with Him. And I am forever changed by this interaction.
+
+---
+
+# Romans 12:1–2:
+
+&gt; [1] I beseech you therefore, brethren, by the mercies of God, that you present your bodies a living sacrifice, holy, acceptable to God, which is your reasonable service. [2] And do not be conformed to this world, but be transformed by the renewing of your mind, that you may prove what is that good and acceptable and perfect will of God.
+
+:note:
+
+As God's servants, presenting our bodies holy before Him is not legalistic by any means but our *"reasonable service."*
+
+How we treat the body temple determines whether our minds remain sharp like Daniel and his friends - like Jesus in the desert. The main goal of health reform is to have the clarity of mind that welcomes the Holy Spirit. There is the added benefit of a long life. But this is not the motivation. See hoping to live longer on its own is really a self-serving pursuit. Self preservation. But there is no point in living a long live, if you've not surrendered your heart to God. If you have not experienced daily dying to self.
+
+---
+
+# "In times of peace prepare for war"
+
+:note:
+
+I thoroughly believe that our time on this Earth is very short. The Word of God cannot fail. Each day is one day closer to the great reset of our planet as we know it. One day closer to seeing Jesus coming through the clouds. Right now, we live in a time of great privelege, having all the truths of Old Testament, New Testament, and the Spirit of Prophecy. Living in a country of great wealth and at a time of great technological innovation. Let's not fall asleep in these comfortable times. A great conflict - a time of trouble - is before us, Scripture tells us global catastrophe, famine, pestilence, wars, such that all life on earth will cease. The 3rd angels message of Revelation warns us also, against coerced worship through the mark of the beast. Without the mark, we won't be able to buy or sell - how are you going to buy your groceries? We will be faced with a decision: Submit to God and suffer persecution, or submit to false worship and have food on your table.
+
+So how do we prepare? Do we stockpile up food and water in our pantries to survive? No, we prepare our hearts. Afflict our souls. We prepare for times of hunger by being hungry now. But not hunger of food, but of the righteousness of Jesus. Blessed are those who hunger and thirst for righteousness, for they shall be filled.
+
+---
+
+# John 6:35
+
+&gt; [35] 'And Jesus said to them, “I am the bread of life. He who comes to Me shall never hunger, and he who believes in Me shall never thirst. '
+
+:note:
+
+I want you to memorize this text here, the words of Jesus:
+
+---
+
+# Testimonies for the Church, v9 p.153
+
+&gt; "Those who have received instruction regarding the evils of the use of flesh foods, tea and coffee, and rich and unhealthful food preparations, and who are determined to make a covenant with God by sacrifice, will not continue to indulge their appetite for food that they know to be unhealthful. God demands that the appetites be cleansed, and that self-denial be practiced... This is a work that will have to be done before His people can stand before Him a perfected people."
+
+:note:
+
+So I want to encourage our churches toward health reform, as it is not just a means for a long life, but it prepares you for the end of time.
+
+---
+
+# Revelation 7:13–17
+&gt;[13] Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?"[14] And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb.
+
+:note:
+
+[13] Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?"[14] And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb.
+[15] Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them.
+[16] They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat;
+[17] for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.
+
+---
+
+# Revelation 7:13–17 cont.
+
+&gt;[15] Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them. [16] They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat; [17] for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.
+
+:note:
+
+[13] Then one of the elders answered, saying to me, "Who are these arrayed in white robes, and where did they come from?"[14] And I said to him, "Sir, you know." So he said to me, "These are the ones who come out of the great tribulation, and washed their robes and made them white in the blood of the Lamb.
+[15] Therefore they are before the throne of God, and serve Him day and night in His temple. And He who sits on the throne will dwell among them.
+[16] They shall neither hunger anymore nor thirst anymore; the sun shall not strike them, nor any heat;
+[17] for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.</textarea>
+  </section>
+
+  <script type="text/javascript">
+  const md_textarea = document.getElementById('revelation-offline-markdown');
+  if (md_textarea) {
+    window.offlineMarkdown = md_textarea.textContent;
+    md_textarea.remove();
+  } else {
+    console.warn('[offline.js] No embedded markdown found in <textarea>');
   }
-  function parseHash(){
-    var m=location.hash.match(/^#\/?(\d+)$/);
-    if(!m)return 0;
-    var n=parseInt(m[1],10)-1;
-    return Math.max(0,Math.min(total-1,n));
-  }
-  function show(i,noHash){
-    i=Math.max(0,Math.min(total-1,i));cur=i;
-    slides.forEach(function(s,k){
-      var on=k===i;s.classList.toggle('active',on);
-      s.setAttribute('aria-hidden',on?'false':'true');
-    });
-    var n=slides[i].querySelector('.notes').innerHTML.trim();
-    panel.innerHTML=n||'<p class="empty">No speaker notes for this slide.</p>';
-    panel.scrollTop=0;
-    counter.textContent=(i+1)+' / '+total;
-    prog.style.width=((i+1)/total*100)+'%';
-    if(!noHash){
-      try{history.replaceState(null,'','#/'+(i+1));}catch(e){location.hash='#/'+(i+1);}
-    }
-  }
-  function next(){show(cur+1)}
-  function prev(){show(cur-1)}
-  function toggleNotes(){
-    var o=panel.classList.toggle('open');
-    nbtn.setAttribute('aria-pressed',o?'true':'false');
-    fit();
-  }
-  function toggleFS(){
-    var d=document,el=d.documentElement;
-    if(!d.fullscreenElement&&!d.webkitFullscreenElement){
-      (el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el);
-    }else{
-      (d.exitFullscreen||d.webkitExitFullscreen||function(){}).call(d);
-    }
-  }
+  </script>
 
-  document.addEventListener('keydown',function(e){
-    if(e.ctrlKey||e.metaKey||e.altKey)return;
-    switch(e.key){
-      case 'ArrowRight':case 'ArrowDown':case 'PageDown':case ' ':case 'Enter':
-        if(e.target&&e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return;
-        e.preventDefault();next();break;
-      case 'ArrowLeft':case 'ArrowUp':case 'PageUp':case 'Backspace':
-        e.preventDefault();prev();break;
-      case 'Home':e.preventDefault();show(0);break;
-      case 'End':e.preventDefault();show(total-1);break;
-      case 'n':case 'N':toggleNotes();break;
-      case 'f':case 'F':toggleFS();break;
-    }
-  });
-  document.getElementById('next').onclick=next;
-  document.getElementById('prev').onclick=prev;
-  nbtn.onclick=toggleNotes;
-  document.getElementById('fbtn').onclick=toggleFS;
-
-  // Touch swipe
-  var tx=null,ty=null;
-  vp.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
-  vp.addEventListener('touchend',function(e){
-    if(tx===null)return;
-    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;
-    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){dx<0?next():prev();}
-  },{passive:true});
-
-  window.addEventListener('resize',fit);
-  window.addEventListener('hashchange',function(){var i=parseHash();if(i!==cur)show(i,true);});
-  if(window.ResizeObserver)new ResizeObserver(fit).observe(vp);
-
-  fit();show(parseHash(),false);
-})();
-</script>
+  
+  
+  <script>
+    window.splashScreenEnabled = true; // Set to false to disable splash screen
+  </script>
+  <script src="_resources/offline-bundle.js"></script>
+  <script src="_resources/translate.js"></script>
 </body>
 </html>
